@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <img class="logo" src="assets/logo.svg" alt="logo"/>
+      <form>
+        <input id="task" type="text" placeholder="Adicione uma nova tarefa" required/>
+        <button class="btn">
+          <p>Criar</p>
+          <i class="ph-plus-circle"></i>
+        </button>
+      </form>
+    </header>
+    <main>
+      <div class="result">
+        <div>
+          <strong>Tarefas criadas</strong>
+          <span class="total-tasks">0</span>
+        </div>
+        <div>
+          <strong>Concluídas</strong>
+          <span class="total-checked">0</span>
+        </div>
+      </div>
+      <div class="container">
+        <img class="clip" src="/assets/clipboard.svg" alt="clipboard"/>
+        <p class="description">
+          <strong>Você ainda não tem tarefas cadastradas</strong>
+          <br/>Crie tarefas e organize seus itens a fazer
+        </p>
+      </div>
+    </main>
+    <script src="main.js" type="module"></script>
+  </body>
+</html>
