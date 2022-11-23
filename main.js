@@ -1,7 +1,7 @@
 import "https://unpkg.com/phosphor-icons";
 const task = document.querySelector("#task");
 let tasks = [];
-var checkbox = document.querySelectorAll("input[type=checkbox]");
+let count = 0
 
 function addHidden() {
   document.querySelector(".clip").classList.add("hidden");
@@ -15,15 +15,20 @@ function removeHidden() {
 
 function reload() {
   localStorage.setItem("myTasks", JSON.stringify(tasks));
-  document.querySelector(".container").innerHTML = "<p></p>";
+  document.querySelector(".content").innerHTML = "<p></p>";
   document.querySelector(".total-tasks").innerText = tasks.length;
-  document.querySelector(".total-checked").innerText = `0 de ${tasks.length}`;
+  document.querySelector(".total-checked").innerText = `${count} de ${tasks.length}`;
+
   listTasks();
 }
 
 function removeTask(value) {
   const result = tasks.filter((item, index) => index != value);
   tasks = result;
+
+  if (tasks.length <= 0) {
+    removeHidden();
+  }
 
   reload();
 }
@@ -33,25 +38,29 @@ function listTasks() {
     const div = document.createElement("div");
     div.classList.add("content-task");
 
-    const p = document.createElement("p");
-    const radio = document.createElement("input");
     const button = document.createElement("button");
+    const checkbox = document.createElement("div");
+
+    checkbox.classList.add("custom-checkbox");
+    const check = document.createElement("input");
+    check.setAttribute("type", "checkbox");
+    check.setAttribute("id", `checkbox-${index}`);
+    const label = document.createElement("label");
+    label.innerHTML = item
+    label.setAttribute("for", `checkbox-${index}`);
+    checkbox.appendChild(check);
+    checkbox.appendChild(label);
 
     const i = document.createElement("i");
     i.classList.add("ph-trash");
     button.appendChild(i);
+
     button.classList.add("remove");
     button.onclick = () => removeTask(index);
 
-    radio.setAttribute("type", "checkbox");
-
-    radio.classList.add("checkmark");
-    p.innerText = item;
-
-    div.appendChild(radio);
-    div.appendChild(p);
+    div.appendChild(checkbox);
     div.appendChild(button);
-    document.querySelector(".container").appendChild(div);
+    document.querySelector(".content").appendChild(div);
   });
 }
 
@@ -70,8 +79,8 @@ if (localStorage.length) {
 
 function addTask() {
   tasks.push(task.value);
-
   reload();
+  addHidden();
 }
 
 document.querySelector("form").addEventListener("submit", (e) => {
@@ -79,12 +88,18 @@ document.querySelector("form").addEventListener("submit", (e) => {
   addTask();
 });
 
-checkbox.forEach((card) => {
-  card.addEventListener("change", function () {
-    if (this.checked) {
-      console.log("ok");
+const input = document.querySelectorAll("input[type=checkbox]");
+
+input.forEach((card) => {
+  card.addEventListener("change", (event) => {
+    if (event.target.checked) {
+      count++
+      document.querySelector(".total-checked").innerText = `${count} de ${tasks.length}`
     } else {
-      console.log("not ok");
+      count--
+      document.querySelector(".total-checked").innerText = `${count} de ${tasks.length}`
     }
   });
 });
+
+
